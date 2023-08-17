@@ -44,7 +44,7 @@ body {
 .headPhoto {
     width: 8rem;
     height: 8rem;
-    background: url(https://q1.qlogo.cn/g?b=qq&nk=1656071287&s=640) no-repeat;
+    background: url(https://www.jiangmuran.com/img/my-picture.png) no-repeat;
     background-size: cover;
     border-radius: 50%;
     position: relative;
@@ -85,7 +85,7 @@ body {
 .meBox-title p {
     font-size: 1.2rem;
     border-right: .1em solid;
-    width: 12ch;
+    width: 15ch;
     white-space: nowrap;
     overflow: hidden;
     animation: typing 2s steps(20, end), blink-caret .3s step-end infinite alternate;
