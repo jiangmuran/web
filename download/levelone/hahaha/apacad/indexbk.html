@@ -1,0 +1,25 @@
+<script>
+	var sc=0;
+	function fd(argument) {
+		sc+=1;
+		if(sc == 10)
+		{
+			document.getElementById("brc").innerHTML="flag:20e,tips:./fcx"
+		}
+	}
+	function ol(argument) {
+		var i;
+		for(i=0;i<1000;i++)
+		{
+			document.getElementById("bra").innerHTML+="<br>";
+		}
+	}
+	function tips(argument) {
+		document.getElementById("brb").innerHTML="这关还没做好"	}
+	window.onload=ol;
+</script>
+
+<p>这里什么都没有</p>
+<font size="0.001" color="white" id="brc"></font><br>
+<p id="bra"></p>
+<button onclick="tips()">提示</button><br><p id="brb" onclick="fd()"></p>

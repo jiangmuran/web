@@ -1,0 +1,33 @@
+<script type="text/javascript">
+	var count=0;
+	function ru(argument) {
+		count+=1;
+		if(count >= 20)
+		{
+			document.getElementById("ans").innerHTML="恭喜你通关第四关flag：6YCf5bqm5LiO5r+A5oOF<br>第五关提示：./https";
+		}
+		else
+		{
+			document.getElementById("ans").innerHTML="就不给";
+		}
+	}
+	function jump(argument) {
+		window.location="https://web.62148310.xyz/games";
+	}
+	if(window.localStorage.t == 1)
+	{
+		jump();
+	}
+	else
+	{
+		setTimeout(jump,9000);
+		window.localStorage.t=1;
+	}
+	
+</script>
+
+<p>欢迎来到第四关</p>
+<p>本关只会持续10s</p>
+<p>点20下我要答案</p>
+<button onclick="ru()">我要答案</button>
+<p id="ans"></p>
