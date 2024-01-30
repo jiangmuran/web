@@ -1,0 +1,33 @@
+
+<p>提示1：有些文字是可以<a href="https://www.bilibili.com/video/BV1uT4y1P7CX">点</a>的</p>
+<script type="text/javascript">
+	var csgo=new Number,csgogogo=new Number;
+	csgo=0;
+	csgogogo=0;
+	function getans() {
+		csgo=csgo+1;
+		if(csgo >= 500000)
+		{
+			document.getElementById("ans").innerHTML = "兄弟别点了，我给你密钥<br>第三关flag：6I635b6X5oiQ5bCx77ya5Y6f5qC35aSN5Yi2<br>第四关线索：L2Rvd25sb2FkL2xldmVsb25lL2h0dHA=";
+		}
+		else
+		{
+			document.getElementById("ans").innerHTML = "就不给你答案";
+		}
+	}
+	function badusb() {
+		csgogogo+=1;
+		if (csgogogo == 10)
+		{
+			document.getElementById("ans").innerHTML = "兄弟别点了，我给你密钥<br>第三关flag：6I635b6X5oiQ5bCx77ya5Y6f5qC35aSN5Yi2<br>第四关线索：L2Rvd25sb2FkL2xldmVsb25lL2h0dHA=";
+		}
+		else
+		{
+			document.getElementById("ans").innerHTML = "清空成功";
+		}
+	}
+</script>
+
+<input name="" value="6L+Z5bCx5piv5a+G6ZKl">  <button onclick="getans()">我要答案！</button><br>
+<button onclick="badusb()">【调试工具】清空计数器</button>
+<p id="ans" ></p>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>音频控制</title>
+</head>
+<body>
+    <h1>音频控制</h1>
+    
+    <!-- 麦克风选择框 -->
+    <label for="microphoneSelect">选择麦克风：</label>
+    <select id="microphoneSelect"></select>
+    
+    <!-- 麦克风授权按钮 -->
+    <button id="authorizeMicrophone">授权麦克风</button>
+    
+    <!-- 开始/停止音频推送按钮 -->
+    <button id="startStopAudio">开始/停止音频</button>
+    
+    <!-- 音量滑轮 -->
+    <input type="range" id="volumeSlider" min="0" max="100" step="1" value="50">
+    
+    <!-- 音频播放器 -->
+    <audio id="audioPlayer" controls></audio>
+    
+    <script>
+        // 获取DOM元素
+        const microphoneSelect = document.getElementById('microphoneSelect');
+        const authorizeButton = document.getElementById('authorizeMicrophone');
+        const startStopButton = document.getElementById('startStopAudio');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const audioPlayer = document.getElementById('audioPlayer');
+        
+        // 麦克风授权状态
+        let microphoneAuthorized = false;
+        
+        // 音频推送状态
+        let audioStreaming = false;
+        
+        // 创建音频上下文
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // 创建媒体流节点
+        let mediaStreamSource = null;
+        
+        // 创建音量控制节点
+        const gainNode = audioContext.createGain();
+        gainNode.connect(audioContext.destination);
+        gainNode.gain.value = volumeSlider.value / 100;
+        
+        // 启用回声消除
+        const audioConstraints = { audio: { echoCancellation: true } };
+        
+        // 列出可用的音频输入设备
+        async function listMicrophones() {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const microphoneOptions = devices
+                .filter(device => device.kind === 'audioinput')
+                .map(device => ({
+                    label: device.label || `麦克风 ${microphoneSelect.length + 1}`,
+                    deviceId: device.deviceId,
+                }));
+            
+            // 清空选择框
+            microphoneSelect.innerHTML = '';
+            
+            // 添加选项
+            microphoneOptions.forEach(option => {
+                const selectOption = document.createElement('option');
+                selectOption.text = option.label;
+                selectOption.value = option.deviceId;
+                microphoneSelect.appendChild(selectOption);
+            });
+        }
+        
+        // 初始化麦克风选择框
+        listMicrophones();
+        
+        // 点击选择麦克风后的事件
+        microphoneSelect.addEventListener('change', async () => {
+            const selectedDeviceId = microphoneSelect.value;
+            audioConstraints.audio.deviceId = { exact: selectedDeviceId };
+            await listMicrophones(); // 重新列出可用麦克风
+        });
+        
+        // 点击授权麦克风按钮
+        authorizeButton.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(audioConstraints);
+                mediaStreamSource = audioContext.createMediaStreamSource(stream);
+                microphoneAuthorized = true;
+            } catch (error) {
+                console.error('授权麦克风失败', error);
+            }
+        });
+        
+        // 点击开始/停止音频按钮
+        startStopButton.addEventListener('click', () => {
+            if (microphoneAuthorized) {
+                if (!audioStreaming) {
+                    if (mediaStreamSource) {
+                        mediaStreamSource.connect(gainNode);
+                        audioStreaming = true;
+                        startStopButton.textContent = '停止音频';
+                        
+                        // 将音频流传输到音频播放器
+                        audioPlayer.srcObject = mediaStreamSource.mediaStream;
+                    }
+                } else {
+                    if (mediaStreamSource) {
+                        mediaStreamSource.disconnect(gainNode);
+                        audioStreaming = false;
+                        startStopButton.textContent = '开始音频';
+                        
+                        // 停止音频播放
+                        audioPlayer.srcObject = null;
+                    }
+                }
+            } else {
+                console.error('请先授权麦克风');
+            }
+        });
+        
+        // 滑轮控制音量
+        volumeSlider.addEventListener('input', () => {
+            gainNode.gain.value = volumeSlider.value / 100;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<script src="https://web.62148310.xyz/download/js/md5.js">
+</script>
+
+<p>请输入前面某一关的密钥</p>
+<script type="text/javascript">
+	function submit() {
+		var t=document.getElementById("pwd").value;
+		if (hex_md5(t) == "5cb1cd404e19da937549ae64945a1d15")
+		{
+			document.getElementById("pwd").value="终于对了";
+			document.getElementById("ans").innerHTML="第五关flag:傻子题<br>第六关提示: ./port of minecraft server";
+		}
+		else
+		{
+			document.getElementById("pwd").value="你被rickroll了";
+			document.getElementById("ans").innerHTML="这要是猜不对真就是个傻子";
+
+		}
+	}
+	function jump(argument) {
+	window.location="https://web.62148310.xyz/games";
+	}
+	if(window.localStorage.t12 == 1)
+	{
+		jump();
+	}
+	else
+	{
+		setTimeout(jump,9000);
+		window.localStorage.t12=1;
+	}
+</script>
+
+请输入密钥：<input id="pwd"><button onclick="submit()">提交</button>
+
+<p id="ans"></p>
