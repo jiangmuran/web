@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JMR 加密系统</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -154,14 +155,15 @@ function copyToClipboard() {
 function sendRequest() {
     const input = document.getElementById("input").value;
     const key = document.getElementById("key").value;
-  
-    fetch('https://safe.jmr1219.site/encrypt', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ input: input, key: key })
-    })
+    $.ajax({
+    url: 'https://safe.jmr1219.site/encrypt',
+    type: 'get',
+    dataType: 'jsonp',  // 请求方式为jsonp
+    jsonpCallback: "handleCallback",  // 自定义回调函数名
+    data: { input: input, key: key }
+});
+
+
 }
 </script>
 

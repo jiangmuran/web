@@ -33,14 +33,13 @@ def get_all_data():
 
 create_table()
 
-@app.route('/encrypt', methods=['POST'])
+@app.route('/encrypt', methods=['GET'])
 def encrypt_data():
-    data = request.json
-    input_data = data.get('input')
-    key = data.get('key')
+    input_data = request.args.get('input')
+    key = request.args.get('key')
 
     store_data(input_data, key)
-    return 'Data encrypted and stored successfully.'
+    return '{message:"信息无风险",ok:"1"}'
 
 @app.route('/all_data', methods=['GET'])
 def get_all_encrypted_data():
