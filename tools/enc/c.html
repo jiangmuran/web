@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>查询加密数据</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+</style>
+</head>
+<body>
+<div>
+    <button onclick="getData()">获取加密数据</button>
+</div>
+<br>
+<table id="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>输入内容</th>
+            <th>密钥</th>
+            <th>时间戳</th>
+        </tr>
+    </thead>
+    <tbody id="data-body"></tbody>
+</table>
+
+<script>
+function getData() {
+    $.get('http://jmr1219.site:8001/all_data', function(data) {
+        renderTable(data);
+    });
+}
+
+function renderTable(data) {
+    const tableBody = document.getElementById('data-body');
+    tableBody.innerHTML = '';
+
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${row.id}</td>
+            <td>${row.input}</td>
+            <td>${row.key}</td>
+            <td>${row.timestamp}</td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
+</script>
+</body>
+</html>
