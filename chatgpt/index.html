@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatgpt</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .btn-amount {
+        width: 100%;
+        font-size: 16px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 2px solid #007bff;
+        background-color: #007bff;
+        color: #fff;
+        transition: all 0.3s;
+    }
+
+    .btn-amount:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .btn-amount:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+    }
+
+    .btn-text {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    #welcomePage {
+        display: block;
+        text-align: center;
+    }
+
+    #chooseAmount, #redirectButton, #successMessage {
+        display: none;
+        text-align: center;
+    }
+
+    #bottomButtons {
+        position: fixed;
+        bottom: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .tutorial {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        margin-top: 20px;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="mt-5" id="welcomePage">
+            <h2>欢迎!</h2>
+                <div class="tutorial">
+                    <h3>常见问题指南</h3>
+                    <p>认真阅读后如果解决不了请联系：jmr@jiangmuran.com</p>
+                    <p>Q.回答包含令牌额度不足等字眼</p>
+                    <p>A.没钱了，重新充值就好了</p>
+                    <p>Q.回答包含上游渠道已饱和等字眼</p>
+                    <p>A.同时使用人数过多，请耐心等待10秒到1分钟</p>
+                    <p>Q.充值时登录没反应/无法复制链接打开</p>
+                    <p>A.请尝试使用系统浏览器打开此链接</p>
+                    <p>Q.费率相关</p>
+                    <p>A.一个问题大约消耗300~1000积分，具体消耗请进入设置查看</p>
+
+
+
+                </div>
+<br>
+            <button class="btn btn-primary" onclick="showChooseAmount()">开始充值</button>
+        </div>
+
+        <div class="mt-5" id="chooseAmount">
+            <h2>请选择充值金额：</h2>
+            <h3>价格越高优惠越大</h3>
+<br><br><br>
+            <div class="mb-3">
+                <div class="btn-group d-flex flex-wrap" role="group" aria-label="充值金额" id="amountButtons">
+                    <!-- 动态生成按钮 -->
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="showRedirectButton()">下一步</button>
+
+        </div>
+
+        <div id="redirectButton" style="display: none;">
+            <div id="tutorialSection" style="display: none;">
+                <div class="tutorial">
+                    <h3>充值教程</h3>
+                    <p>请认真阅读后再点击去支付按钮</p>
+                    <p>1.点击 手机/邮箱快速登录</p>
+                    <p>2.接受 验证码并登录</p>
+                    <p>3.返回到本界面</p>
+                    <p>4.再次点击去充值并支付</p>
+                    <p>5.点击私聊并复制我最新发送的内容</p>
+                    <p>6.复制并打开</p>
+                    <p>note.如果聊天界面出现弹窗，请点击comfirm</p>
+                    
+
+
+
+                </div>
+            </div>
+            <button class="btn btn-primary" id="redirectBtn" onclick="redirectToLink()">去支付</button>
+        </div>
+
+        <div id="successMessage" class="mt-3" style="display: none;">
+            <p id="successText"></p>
+            <p id="linkText"></p>
+            <button class="btn btn-success" id="copyBtn" onclick="copyToClipboard()">复制链接</button>
+        </div>
+
+        <div id="bottomButtons">
+            <a href="https://jgpt.jmr1219.site" class="btn btn-primary mr-2" target="_blank">开发者</a>
+            <a href="https://ai.jmr1219.site" class="btn btn-primary" target="_blank">直接进入聊天（适用于已经充值）</a>
+        </div>
+    </div>
+
+    <script>
+
+
+
+        let selectedAmount = 0;
+        let link = getParameterByName('link');
+
+        // 定义金额、对应链接和按钮后的文字的字典
+        const amountLinkDict = {
+            2: {link: 'https://afdian.net/item/3e5f6076d18311eea59e52540025c377', text: '元 120000积分 单价60000积分/元'},
+            20: {link: 'https://afdian.net/item/dc42b9bed18311eeab475254001e7c00', text: '元 1400000积分 单价70000积分/元'},
+            100: {link: 'https://afdian.net/item/63a7a478d18411eeaa4852540025c377', text: '元 7500000积分 单价75000积分/元'}
+        };
+
+        // 动态生成按钮和文字
+        const amountButtonsDiv = document.getElementById('amountButtons');
+        Object.keys(amountLinkDict).forEach(amount => {
+            const button = document.createElement('button');
+            button.className = 'btn btn-amount';
+            button.textContent = amount + ' ' + amountLinkDict[amount].text;
+            button.addEventListener('click', () => selectAmount(parseInt(amount)));
+            amountButtonsDiv.appendChild(button);
+        });
+
+        function selectAmount(amount) {
+            selectedAmount = amount;
+        }
+
+        function showChooseAmount() {
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('chooseAmount').style.display = 'block';
+        }
+
+        function showRedirectButton() {
+            document.getElementById('chooseAmount').style.display = 'none';
+            document.getElementById('redirectButton').style.display = 'block';
+document.getElementById("tutorialSection").style.display = "block";
+
+        }
+
+        function redirectToLink() {
+            let redirectUrl = amountLinkDict[selectedAmount].link || 'https://example.com';
+            window.location.href = redirectUrl;
+        }
+
+        function copyToClipboard() {
+            const linkText = document.getElementById('linkText');
+            const link = linkText.textContent.substring(4); // 去掉"链接："部分
+            navigator.clipboard.writeText(link)
+                .then(() => {
+                    alert('链接已复制到剪贴板！');
+                })
+                .catch(err => {
+                    console.error('复制失败：', err);
+                });
+        }
+
+        // 获取URL参数的值
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // 根据传入的link参数显示充值成功信息和链接
+        if (link) {
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('chooseAmount').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('successText').textContent = '充值成功！';
+            document.getElementById('linkText').textContent = '链接：' + link;
+        }
+
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
