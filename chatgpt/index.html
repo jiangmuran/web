@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chatgpt</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap.min.css">
 <style>
     .btn-amount {
         width: 100%;
@@ -69,8 +69,8 @@
                     <p>A.没钱了，重新充值就好了</p>
                     <p>Q.回答包含上游渠道已饱和等字眼</p>
                     <p>A.同时使用人数过多，请耐心等待10秒到1分钟</p>
-                    <p>Q.充值时登录没反应/无法复制链接打开</p>
-                    <p>A.请尝试使用系统浏览器打开此链接</p>
+                    <p>Q.电脑端遇到各种问题</p>
+                    <p>A.本系统优先支持手机端，请尝试重新打开本界面</p>
                     <p>Q.费率相关</p>
                     <p>A.一个问题大约消耗300~1000积分，具体消耗请进入设置查看</p>
 
@@ -79,6 +79,10 @@
                 </div>
 <br>
             <button class="btn btn-primary" onclick="showChooseAmount()">开始充值</button>
+            <p>Made by jmr </p>
+            <p>2024版权所有</p>
+            <p>jmr@jiangmuran.com</p>
+            
         </div>
 
         <div class="mt-5" id="chooseAmount">
@@ -99,10 +103,10 @@
                 <div class="tutorial">
                     <h3>充值教程</h3>
                     <p>请认真阅读后再点击去支付按钮</p>
-                    <p>1.点击 手机/邮箱快速登录</p>
-                    <p>2.接受 验证码并登录</p>
-                    <p>3.返回到本界面</p>
-                    <p>4.再次点击去充值并支付</p>
+                    <p>1.使用微信/手机号登录</p>
+                    <p>2.点击发电</p>
+                    <p>3.充值后点击私信（重要）</p>
+                    <img src="https://cdn.luogu.com.cn/upload/image_hosting/59cx58x0.png" />
                     <p>5.点击私聊并复制我最新发送的内容</p>
                      <img src="https://cdn.luogu.com.cn/upload/image_hosting/us67mrmv.png" />
                     <p>6.复制并打开</p>
@@ -114,6 +118,9 @@
                 </div>
             </div>
             <button class="btn btn-primary" id="redirectBtn" onclick="redirectToLink()">去支付</button>
+            <p>Made by jmr </p>
+            <p>2024版权所有</p>
+            <p>jmr@jiangmuran.com</p>
         </div>
 
         <div id="successMessage" class="mt-3" style="display: none;">
@@ -121,8 +128,9 @@
             <p id="linkText"></p>
             <button class="btn btn-success" id="copyBtn" onclick="copyToClipboard()">复制链接</button>
         </div>
-
+        
         <div id="bottomButtons">
+            <br><br>
             <a href="https://jgpt.jmr1219.site" class="btn btn-primary mr-2" target="_blank">开发者</a>
             <a href="https://ai.jmr1219.site" class="btn btn-primary" target="_blank">直接进入聊天（适用于已经充值）</a>
         </div>
@@ -134,12 +142,27 @@
 
         let selectedAmount = 0;
         let link = getParameterByName('link');
+        function judge() {
+	let str = /Android|webOS|iPhone|iPod|BlackBerry|iPad|Wechat/i.test(navigator.userAgent) 
+	return str;
+}
+window.onload = function(){
+    var queryString = window.location.search;
+
+
+    var params = new URLSearchParams(queryString);
+    //console.log(judge())
+    if (!(judge())&& (params.get("allow")!=1))
+    {
+        window.location.href="./computer.html"
+    }
+}
 
         // 定义金额、对应链接和按钮后的文字的字典
         const amountLinkDict = {
-            2: {link: 'https://afdian.net/item/3e5f6076d18311eea59e52540025c377', text: '元 120000积分 单价60000积分/元'},
-            20: {link: 'https://afdian.net/item/dc42b9bed18311eeab475254001e7c00', text: '元 1400000积分 单价70000积分/元'},
-            100: {link: 'https://afdian.net/item/63a7a478d18411eeaa4852540025c377', text: '元 7500000积分 单价75000积分/元'}
+            2.5: {link: 'https://afdian.net/item/3e5f6076d18311eea59e52540025c377', text: '元 12W积分 ≈150个问题'},
+            22: {link: 'https://afdian.net/item/dc42b9bed18311eeab475254001e7c00', text: '元 140W积分 ≈1800个问题'},
+            99: {link: 'https://afdian.net/item/63a7a478d18411eeaa4852540025c377', text: '元 750W积分 ≈9400个问题'}
         };
 
         // 动态生成按钮和文字
@@ -162,14 +185,18 @@
         }
 
         function showRedirectButton() {
-            document.getElementById('chooseAmount').style.display = 'none';
+            if (selectedAmount != 0)
+            {
+                document.getElementById('chooseAmount').style.display = 'none';
             document.getElementById('redirectButton').style.display = 'block';
 document.getElementById("tutorialSection").style.display = "block";
+            }
+            
 
         }
 
         function redirectToLink() {
-            let redirectUrl = amountLinkDict[selectedAmount].link || 'https://example.com';
+            let redirectUrl = amountLinkDict[selectedAmount].link || 'https://afdian.net/a/jiangmuran2';
             window.location.href = redirectUrl;
         }
 
@@ -206,8 +233,8 @@ document.getElementById("tutorialSection").style.display = "block";
 
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.slim.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/2.11.8/cjs/enums.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
