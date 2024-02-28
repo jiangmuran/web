@@ -62,30 +62,28 @@
     <div class="container">
         <div class="mt-5" id="welcomePage">
             <h2>欢迎!</h2>
-                <div class="tutorial">
-                    <h3>常见问题指南</h3>
-                    <p>认真阅读后如果解决不了请联系：jmr@jiangmuran.com</p>
-                    <p>Q.回答包含令牌额度不足等字眼</p>
-                    <p>A.没钱了，重新充值就好了</p>
-                    <p>Q.回答包含上游渠道已饱和等字眼</p>
-                    <p>A.同时使用人数过多，请耐心等待10秒到1分钟</p>
-                    <p>Q.电脑端遇到各种问题</p>
-                    <p>A.本系统优先支持手机端，请尝试重新打开本界面</p>
-                    <p>Q.费率相关</p>
-                    <p>A.一个问题大约消耗300~1000积分，具体消耗请进入设置查看</p>
 
-
-
-                </div>
 <br>
+            <div class="tutorial">
+                    <h3>请注意</h3>
+                <br><br>
+                    <h4>在开始聊天之前请确保已经充值</h4>
+                <br>
+                    <h4>否则Chatgpt会胡言乱语</h4>
+
+
+
+                </div><br><br>
+            <a href="http://p.jiangmuran.com:3002" class="btn btn-primary" target="_blank">与chatgpt开始聊天</a>
+            <br><br>
             <button class="btn btn-primary" onclick="showChooseAmount()">开始充值</button>
+
             <br><br><br>
             <p>Made by jmr </p>
         </div>
 
         <div class="mt-5" id="chooseAmount">
             <h2>请选择充值金额：</h2>
-            <h3>价格越高优惠越大</h3>
 <br><br><br>
             <div class="mb-3">
                 <div class="btn-group d-flex flex-wrap" role="group" aria-label="充值金额" id="amountButtons">
@@ -124,10 +122,7 @@
             <button class="btn btn-success" id="copyBtn" onclick="copyToClipboard()">复制链接</button>
         </div>
         
-        <div id="bottomButtons">
-            <a href="http://p.jiangmuran.com:3000" class="btn btn-primary mr-2" target="_blank">开发者</a>
-            <a href="http://p.jiangmuran.com:3002" class="btn btn-primary" target="_blank">直接进入聊天（适用于已经充值）</a>
-        </div>
+
     </div>
 
     <script>
