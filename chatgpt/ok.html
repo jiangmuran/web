@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>充值成功</title>
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap.min.css">
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/js/bootstrap.min.js"></script>
+<style>
+    .center {
+        text-align: center;
+    }
+    .big-button {
+        padding: 10px 20px;
+        font-size: 20px;
+    }
+</style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">充值成功</h1>
+    <div class="row mt-3">
+        <div class="col-md-6 offset-md-3">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="keyInput" value="" readonly>
+                <button class="btn btn-primary" type="button" onclick="copyKey()">复制链接</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12 center">
+            <a href="#" class="btn btn-success big-button" id="redirectBtn">点击跳转</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-3">
+                <p>开发者 Token (Key): <span id="developerToken"></span></p>
+                <button class="btn btn-primary" type="button" onclick="copyDeveloperToken()">复制 Token</button>
+            </div>
+            <div class="mb-3">
+                <p>OpenAI 地址: https://openai.com</p>
+                <button class="btn btn-primary" type="button" onclick="copyOpenAIUrl()">复制地址</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyKey() {
+        const keyInput = document.getElementById('keyInput');
+        keyInput.select();
+        document.execCommand('copy');
+        alert('Key 已复制到剪切板');
+    }
+
+    function copyDeveloperToken() {
+        const developerToken = document.getElementById('developerToken').innerText;
+        navigator.clipboard.writeText(developerToken);
+        alert('开发者 Token 已复制到剪切板');
+    }
+
+    function copyOpenAIUrl() {
+        const openAIUrl = 'https://openai.com';
+        navigator.clipboard.writeText(openAIUrl);
+        alert('OpenAI 地址已复制到剪切板');
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    document.getElementById('keyInput').value = 'http://p.jiangmuran.com:3002/#/?settings={"key":"'+getParameterByName('key')+'","url":"http://p.jiangmuran.com:3000"}';
+    document.getElementById('developerToken').innerText = getParameterByName('key');
+
+    document.getElementById('redirectBtn').addEventListener('click', function() {
+        const key = document.getElementById('keyInput').value;
+        window.location.href = key;
+    });
+</script>
+</body>
+</html>
