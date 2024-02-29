@@ -42,13 +42,20 @@
                 <button class="btn btn-primary" type="button" onclick="copyDeveloperToken()">复制 Token</button>
             </div>
             <div class="mb-3">
-                <p>OpenAI 地址: https://openai.com</p>
+                <p>API 地址: http://p.jiangmuran.com:3000</p>
                 <button class="btn btn-primary" type="button" onclick="copyOpenAIUrl()">复制地址</button>
             </div>
         </div>
     </div>
 </div>
-
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 center">
+            <p>当前余额：<span id="balance">Loading...</span> 积分</p>
+            <button class="btn btn-primary" onclick="refreshBalance()">刷新</button>
+        </div>
+    </div>
+</div>
 <script>
     function copyKey() {
         const keyInput = document.getElementById('keyInput');
@@ -64,9 +71,9 @@
     }
 
     function copyOpenAIUrl() {
-        const openAIUrl = 'https://openai.com';
+        const openAIUrl = 'http://p.jiangmuran.com:3000';
         navigator.clipboard.writeText(openAIUrl);
-        alert('OpenAI 地址已复制到剪切板');
+        alert('API 地址已复制到剪切板');
     }
 
     function getParameterByName(name, url) {
@@ -86,6 +93,16 @@
         const key = document.getElementById('keyInput').value;
         window.location.href = key;
     });
+        function refreshBalance() {
+        fetch('http://p.jiangmuran.com:3000/v1/dashboard/billing/subscription')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('balance').innerText = data.system_hard_limit_usd + ' 积分';
+            })
+            .catch(error => {
+                console.error('Error fetching balance:', error);
+            });
+    }
 </script>
 </body>
 </html>

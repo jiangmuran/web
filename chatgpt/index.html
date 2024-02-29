@@ -149,9 +149,9 @@ window.onload = function(){
 
         // 定义金额、对应链接和按钮后的文字的字典
         const amountLinkDict = {
-            2: {link: 'https://afdian.net/item/3e5f6076d18311eea59e52540025c377', text: '.5元 25000积分 ≈25个问题'},
-            22: {link: 'https://afdian.net/item/dc42b9bed18311eeab475254001e7c00', text: '元 25万积分 ≈250个问题'},
-            99: {link: 'https://afdian.net/item/63a7a478d18411eeaa4852540025c377', text: '元 120万积分 ≈1200个问题'}
+            1: {link: 'https://afdian.net/item/3e5f6076d18311eea59e52540025c377', text: '.99元 25000积分 ≈25个问题'},
+            19: {link: 'https://afdian.net/item/dc42b9bed18311eeab475254001e7c00', text: '.99元 25万积分 ≈250个问题'},
+            99: {link: 'https://afdian.net/item/63a7a478d18411eeaa4852540025c377', text: '.99元 120万积分 ≈1200个问题'}
         };
 
         // 动态生成按钮和文字
@@ -159,7 +159,7 @@ window.onload = function(){
         Object.keys(amountLinkDict).forEach(amount => {
             const button = document.createElement('button');
             button.className = 'btn btn-amount';
-            button.textContent = amount + ' ' + amountLinkDict[amount].text;
+            button.textContent = amount + '' + amountLinkDict[amount].text;
             button.addEventListener('click', () => selectAmount(parseInt(amount)));
             amountButtonsDiv.appendChild(button);
         });
